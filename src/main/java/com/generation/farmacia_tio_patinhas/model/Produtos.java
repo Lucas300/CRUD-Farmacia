@@ -39,6 +39,8 @@ public class Produtos {
 	@ManyToOne
 	@JsonIgnoreProperties("produtos") //evita loop
 	private Categorias categorias;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -79,6 +81,15 @@ public class Produtos {
 	public void setCategorias(Categorias categorias) {
 		this.categorias = categorias;
 	}
-	
+
+	public Produtos(Long id, String nome, BigDecimal preco,	int quantidade, Categorias categorias) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.preco = preco;
+		this.quantidade = quantidade;
+		this.categorias = categorias;
+	}
+	public Produtos() {}
 	
 }
