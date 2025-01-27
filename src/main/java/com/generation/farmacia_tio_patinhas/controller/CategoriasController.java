@@ -22,36 +22,42 @@ import com.generation.farmacia_tio_patinhas.model.Categorias;
 import com.generation.farmacia_tio_patinhas.repository.CategoriasRepository;
 
 import jakarta.validation.Valid;
-
+//Define esta classe como um controlador REST
 @RestController
 @RequestMapping("/categorias")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoriasController {
 
+	// Injeta automaticamente uma instância do repositório de categorias
 	@Autowired
 	private CategoriasRepository categoriasRepository;
 
+	// Endpoint para listar todas as categorias
 	@GetMapping
 	public ResponseEntity<List<Categorias>> getAll() {
 		return ResponseEntity.ok(categoriasRepository.findAll());
 	}
 
+	// Endpoint para buscar uma categoria pelo ID
 	@GetMapping("/{id}")
 	public ResponseEntity<Categorias> getById(@PathVariable Long id) {
 		return categoriasRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
-
+	
+	// Endpoint para buscar categorias pelo nome (parcial ou completo)
 	@GetMapping("/nome/{nome}")
 	public ResponseEntity<List<Categorias>> getByNome(@PathVariable String nome) {
 		return ResponseEntity.ok(categoriasRepository.findAllByNomeCategoriaContainingIgnoreCase(nome));
 	}
 
+	// Endpoint para criar uma nova categoria
 	@PostMapping
 	public ResponseEntity<Categorias> post(@Valid @RequestBody Categorias categorias) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(categoriasRepository.save(categorias));
 	}
 
+	// Endpoint para atualizar uma categoria existente
 	@PutMapping
 	public ResponseEntity<Categorias> put(@Valid @RequestBody Categorias categorias) {
 		return categoriasRepository.findById(categorias.getId())
@@ -59,6 +65,7 @@ public class CategoriasController {
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
+	// Endpoint para deletar uma categoria pelo ID
 	@ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

@@ -9,5 +9,7 @@ import com.generation.farmacia_tio_patinhas.model.Categorias;
 
 
 public interface CategoriasRepository extends JpaRepository<Categorias, Long>{
+	
 	public List<Categorias> findAllByNomeCategoriaContainingIgnoreCase(@Param("nomeCategoria") String nomeCategoria);
+
 }
